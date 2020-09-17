@@ -1,0 +1,54 @@
+{
+    "name": "react-kickoff",
+    "version": "0.0.1",
+    "description": "React Kickoff app",
+    "main": "app/index.jsx",
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "start": "webpack-dev-server --env.platform=development --mode development --progress",
+        "lint": "eslint . --ext .jsx,.js",
+        "test": "jest --config ./jest.config.js --coverage",
+        "build": "webpack --env.platform=production --mode production --progress"
+    },
+    "contributors": [
+        "Sky Golden"
+    ],
+    "dependencies": {
+        "@babel/core": "^7.11.4",
+        "@types/react-router": "^5.1.8",
+        "babel-loader": "^8.1.0",
+        "clean-webpack-plugin": "^3.0.0",
+        "html-webpack-plugin": "^4.3.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-hot-loader": "^4.12.21",
+        "react-router-dom": "^5.2.0",
+        "styled-components": "^5.1.1",
+        "webpack": "^4.44.1",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-server": "^3.11.0"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.11.5",
+        "@babel/preset-react": "^7.10.4",
+        "babel-jest": "^26.3.0",
+        "jest": "^26.4.2",
+        "react-test-renderer": "^16.13.1"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}

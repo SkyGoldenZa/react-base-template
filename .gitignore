@@ -1,0 +1,17 @@
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+/public
+
+# misc
+*.log
+.idea
+.DS_Store
+bundle.js.map
+webpack-stats.json
