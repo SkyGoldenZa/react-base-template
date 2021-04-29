@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export function Signup() {
+export const Signup: React.FC = () => {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
 
-   const handleSubmit = (event) => {
+   const handleSubmit = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
       event.preventDefault();
       alert(`Submitting email: ${email} and password: ${password}`);
-   }
+      return event.target;
+   };
 
    return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={() => handleSubmit}>
          <h1>Sign up</h1>
          <br />
-         <label>
+         <label htmlFor="signupEmail">
             <span>Email:</span>
             <input
                type="text"
+               id="signupEmail"
                placeholder="email"
                value={email}
                onChange={(e) => setEmail(e.target.value)}
@@ -25,10 +27,11 @@ export function Signup() {
          </label>
          <br />
          <br />
-         <label>
+         <label htmlFor="signupPassword">
             <span>Password:</span>
             <input
                type="password"
+               id="signupPassword"
                placeholder="password"
                value={password}
                onChange={(e) => setPassword(e.target.value)}

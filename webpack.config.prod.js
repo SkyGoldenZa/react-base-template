@@ -3,38 +3,54 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-module.exports = () => {
-   const configFile = require('./config/development.json');
-   const DEV_SERVER_PORT = 4444;
+module.exports = (env, argv) => {
+   const { platform } = env || '';
+
+   // eslint-disable-next-line global-require
+   const configFile = require(`./config/${platform || 'development'}.json`);
 
    const baseUrl = configFile && configFile.BASE_URL;
-   const appUrl = configFile && configFile.APP_URL;
    const distPath = path.resolve(__dirname, 'dist');
 
-   console.log('\x1b[36m%s\x1b[0m', 'Building for development...');
+   let optimization;
+   let output;
+   const plugins = [
+      new HtmlWebPackPlugin({
+         title: 'React Base Template',
+         template: './index.html',
+         filename: './index.html',
+         favicon: './src/favicon.png',
+      }),
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+      new webpack.SourceMapDevToolPlugin(),
+   ];
+
+   optimization = {
+      minimize: true,
+      nodeEnv: 'production',
+      splitChunks: { chunks: 'all' },
+      runtimeChunk: true,
+      namedModules: true,
+      namedChunks: true,
+   };
+   output = {
+      filename: '[hash:8].bundle.js',
+      chunkFilename: '[chunkhash:8].bundle.js',
+      path: distPath,
+      publicPath: baseUrl,
+   };
+   plugins.push(
+      new CleanWebpackPlugin(),
+      new webpack.HashedModuleIdsPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+   );
 
    return {
       entry: ['react-hot-loader/patch', './src/index.tsx'],
-      output: {
-         filename: 'bundle.js',
-         path: distPath,
-         publicPath: distPath,
-      },
-      optimization: {
-         minimize: false,
-         nodeEnv: 'development',
-      },
-      plugins: [
-         new HtmlWebPackPlugin({
-            title: 'React Base Template',
-            template: './index.html',
-            filename: './index.html',
-            favicon: './src/favicon.png',
-         }),
-         new webpack.HotModuleReplacementPlugin(),
-         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-         new webpack.SourceMapDevToolPlugin(),
-      ],
+      output,
+      optimization,
+      plugins,
       devtool: 'inline-source-map',
       module: {
          rules: [{
@@ -67,11 +83,6 @@ module.exports = () => {
             'react-dom': '@hot-loader/react-dom'
          },
          symlinks: false,
-      },
-      devServer: {
-         host: 'localhost',
-         port: DEV_SERVER_PORT,
-         hot: true,
       },
    };
 };

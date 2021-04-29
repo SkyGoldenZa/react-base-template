@@ -1,0 +1,4 @@
+export default {
+   BASE_URL: "/",
+   APP_URL: "http://localhost:4444",
+};
